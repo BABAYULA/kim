@@ -1,0 +1,9 @@
+PROJECT: Istanbul Airport Transfer WordPress Plugin
+TYPE: Custom Plugin (PHP/JavaScript)
+COMPLEXITY: Medium-High
+AI_ASSISTANCE_AREAS:
+  - Code generation (PHP classes, React/Vue components)
+  - Database schema design
+  - API integration patterns
+  - Security audit
+  - Testing scenarios
