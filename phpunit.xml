@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+    bootstrap="tests/bootstrap.php"
+    backupGlobals="false"
+    backupStaticAttributes="false"
+    beStrictAboutTestsThatDoNotTestAnything="true"
+    beStrictAboutOutputDuringTests="true"
+    beStrictAboutTodoAnnotatedTests="true"
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    processIsolation="false"
+    stopOnFailure="false"
+    testdox="true"
+    verbose="true"
+    cacheResult="true"
+    cacheResultFile=".phpunit.result.cache"
+>
+    <testsuites>
+        <testsuite name="Memory Bank Unit Tests">
+            <directory suffix="Test.php">tests/unit</directory>
+        </testsuite>
+        <testsuite name="Memory Bank Integration Tests">
+            <directory suffix="Test.php">tests/integration</directory>
+        </testsuite>
+    </testsuites>
+    
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">includes</directory>
+            <exclude>
+                <directory>includes</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+    
+    <logging>
+        <log type="coverage-html" target="coverage/" lowUpperBound="50" highLowerBound="90"/>
+        <log type="coverage-clover" target="coverage/clover.xml"/>
+        <log type="junit" target="coverage/junit.xml" logIncompleteSkipped="false"/>
+        <log type="testdox-html" target="coverage/testdox.html"/>
+    </logging>
+    
+    <php>
+        <!-- WordPress constants for testing -->
+        <const name="WP_TESTS_DOMAIN" value="example.org"/>
+        <const name="WP_TESTS_EMAIL" value="admin@example.org"/>
+        <const name="WP_TESTS_TITLE" value="Test Blog"/>
+        <const name="WP_PHP_BINARY" value="php"/>
+        <const name="WPLANG" value=""/>
+        
+        <!-- Test database configuration -->
+        <const name="DB_NAME" value="test_istanbul_airport_transfer"/>
+        <const name="DB_USER" value="root"/>
+        <const name="DB_PASSWORD" value=""/>
+        <const name="DB_HOST" value="localhost"/>
+        <const name="DB_CHARSET" value="utf8"/>
+        <const name="DB_COLLATE" value=""/>
+        
+        <!-- WordPress security keys -->
+        <const name="AUTH_KEY" value="test_auth_key"/>
+        <const name="SECURE_AUTH_KEY" value="test_secure_auth_key"/>
+        <const name="LOGGED_IN_KEY" value="test_logged_in_key"/>
+        <const name="NONCE_KEY" value="test_nonce_key"/>
+        <const name="AUTH_SALT" value="test_auth_salt"/>
+        <const name="SECURE_AUTH_SALT" value="test_secure_auth_salt"/>
+        <const name="LOGGED_IN_SALT" value="test_logged_in_salt"/>
+        <const name="NONCE_SALT" value="test_nonce_salt"/>
+        
+        <!-- Test environment -->
+        <const name="WP_TESTS_MULTISITE" value="false"/>
+        <const name="WP_MEMORY_LIMIT" value="256M"/>
+        <const name="WP_MAX_MEMORY_LIMIT" value="512M"/>
+    </php>
+    
+    <coverage>
+        <include>
+            <directory suffix=".php">includes</directory>
+        </include>
+        <exclude>
+            <directory suffix=".php">tests</directory>
+            <directory suffix=".php">vendor</directory>
+        </exclude>
+        <report>
+            <clover outputFile="coverage/clover.xml"/>
+            <html outputDirectory="coverage/html"/>
+            <php outputFile="coverage/coverage.php"/>
+            <text outputFile="coverage/coverage.txt"/>
+        </report>
+    </coverage>
+</phpunit>
