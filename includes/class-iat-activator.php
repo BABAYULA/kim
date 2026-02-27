@@ -34,8 +34,13 @@ class IAT_Activator {
             wp_die(__('Istanbul Airport Transfer requires WordPress 6.0 or higher.', 'istanbul-airport-transfer'));
         }
 
-        // Create database tables
-        self::create_database_tables();
+        // Check database version and run migrations if needed
+        $installed_ver = get_option('iat_db_version', '0.0.0');
+        if (version_compare($installed_ver, IAT_VERSION, '<')) {
+            self::create_database_tables();
+            self::run_migrations($installed_ver);
+            update_option('iat_db_version', IAT_VERSION);
+        }
 
         // Set up default options
         self::set_default_options();
@@ -222,5 +227,49 @@ class IAT_Activator {
                 update_option('iat_' . $key, $value);
             }
         }
+    }
+
+    /**
+     * Run database migrations from old version to current version
+     *
+     * This method handles incremental database schema changes between versions.
+     * dbDelta() handles additions safely, but this method is for column renames,
+     * drops, and data transformations that require manual migration.
+     *
+     * @param string $installed_ver Previously installed database version
+     */
+    private static function run_migrations($installed_ver) {
+        global $wpdb;
+
+        // Example: Migration from 1.0.0 to 1.1.0
+        // if (version_compare($installed_ver, '1.1.0', '<')) {
+        //     self::migrate_1_0_0_to_1_1_0();
+        // }
+
+        // Add future migrations below in version order
+        // Each migration should be idempotent (safe to run multiple times)
+    }
+
+    /**
+     * Example migration method - keep as template for future use
+     *
+     * @deprecated Keep as template for future migrations
+     */
+    private static function migrate_1_0_0_to_1_1_0() {
+        global $wpdb;
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
+        // Safe: Migration operation on existing column
+        $wpdb->query(
+            "ALTER TABLE {$wpdb->prefix}iat_bookings
+             MODIFY COLUMN status ENUM('pending', 'confirmed', 'auto_confirmed', 'cancelled', 'completed')"
+        );
+
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
+        // Safe: Adding index to improve query performance
+        $wpdb->query(
+            "ALTER TABLE {$wpdb->prefix}iat_bookings
+             ADD INDEX created_at (created_at)"
+        );
     }
 }

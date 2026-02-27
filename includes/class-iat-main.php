@@ -191,8 +191,17 @@ class IAT_Main {
 
     /**
      * Enqueue frontend scripts
+     *
+     * Only loads scripts/styles on pages that contain our shortcodes or
+     * specific page templates. This improves performance by avoiding unnecessary
+     * asset loading on unrelated pages.
      */
     public function enqueue_frontend_scripts() {
+        // Check if this page needs our assets
+        if (!$this->should_load_frontend_assets()) {
+            return;
+        }
+
         wp_enqueue_style(
             'iat-frontend-style',
             IAT_PLUGIN_URL . 'assets/css/public-booking.css',
@@ -209,10 +218,41 @@ class IAT_Main {
         );
 
         // Localize script with AJAX URL
-        wp_localize_script('iat-frontend-script', 'iat_ajax', [
+        wp_localize_script('iat_frontend_script', 'iat_ajax', [
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('iat_nonce')
         ]);
+    }
+
+    /**
+     * Check if frontend assets should be loaded on current page
+     *
+     * Determines whether the current page contains booking-related shortcodes
+     * or is a designated page template that requires plugin assets.
+     *
+     * @return bool True if assets should be loaded, false otherwise
+     */
+    private function should_load_frontend_assets() {
+        global $post;
+
+        // Check if we're on a single post/page with content
+        if (!is_a($post, 'WP_Post')) {
+            return false;
+        }
+
+        // Check if any of our shortcodes are present in the content
+        $shortcodes = ['iat_booking_form', 'iat_quote_form', 'iat_booking_status'];
+        foreach ($shortcodes as $shortcode) {
+            if (has_shortcode($post->post_content, $shortcode)) {
+                return true;
+            }
+        }
+
+        // Check for custom page templates (extend as needed)
+        // Example: if (is_page_template('booking-page.php')) { return true; }
+
+        // Allow developers to force load assets via filter
+        return apply_filters('iat_should_load_frontend_assets', false);
     }
 
     /**

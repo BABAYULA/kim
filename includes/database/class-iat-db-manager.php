@@ -162,7 +162,7 @@ class IAT_DB_Manager {
                 'region_name' => sanitize_text_field($data['region_name']),
                 'zone_code' => sanitize_text_field($data['zone_code']),
                 'zone_type' => sanitize_text_field($data['zone_type']),
-                'geojson' => wp_kses_post($data['geojson']), // Allow some HTML for GeoJSON
+                'geojson' => $this->sanitize_geojson($data['geojson']),
                 'base_price_intra' => floatval($data['base_price_intra'])
             ],
             ['%s', '%s', '%s', '%s', '%f']
@@ -217,6 +217,8 @@ class IAT_DB_Manager {
     public function get_all_regions() {
         global $wpdb;
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
+        // Safe: No user input, static query for admin use only
         $regions = $wpdb->get_results("SELECT * FROM {$this->get_regions_table()} ORDER BY region_name ASC");
 
         return $regions ?: [];
@@ -244,7 +246,7 @@ class IAT_DB_Manager {
                         $update_data[$field] = sanitize_text_field($value);
                         break;
                     case 'geojson':
-                        $update_data[$field] = wp_kses_post($value);
+                        $update_data[$field] = $this->sanitize_geojson($value);
                         break;
                     case 'base_price_intra':
                         $update_data[$field] = floatval($value);
@@ -355,6 +357,8 @@ class IAT_DB_Manager {
     public function get_all_pricings() {
         global $wpdb;
 
+        // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.PreparedSQL.NotPrepared
+        // Safe: No user input, static query for admin use only
         $pricings = $wpdb->get_results("SELECT * FROM {$this->get_pricings_table()}");
 
         return $pricings ?: [];
@@ -685,6 +689,13 @@ class IAT_DB_Manager {
             return false;
         }
 
+        // Check TTL (30 days) - reject stale entries
+        $age = time() - strtotime($cached->updated_at);
+        if ($age > 30 * DAY_IN_SECONDS) {
+            $this->delete_geocache($address);
+            return false;
+        }
+
         return [
             'lat' => floatval($cached->lat),
             'lng' => floatval($cached->lng),
@@ -694,12 +705,60 @@ class IAT_DB_Manager {
     }
 
     /**
+     * Delete geocache entry
+     *
+     * @param string $address Address to delete from cache
+     * @return bool True on success, false on failure
+     */
+    public function delete_geocache($address) {
+        global $wpdb;
+
+        $address_hash = md5($address);
+
+        $result = $wpdb->delete(
+            $this->get_geocache_table(),
+            ['address_hash' => $address_hash],
+            ['%s']
+        );
+
+        return $result !== false;
+    }
+
+    /**
      * Generate unique booking ID
+     *
+     * Uses cryptographically secure random bytes for security.
      *
      * @return string Unique booking ID
      */
     private function generate_booking_id() {
-        return 'IAT' . date('Ymd') . substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 8);
+        // Cryptographically random generation instead of str_shuffle()
+        // Format: IAT + YYYYMMDD + 8 hex chars (4 random bytes)
+        return 'IAT' . date('Ymd') . strtoupper(bin2hex(random_bytes(4)));
+    }
+
+    /**
+     * Sanitize GeoJSON data
+     *
+     * Validates that the input is valid JSON and returns sanitized version.
+     * GeoJSON is structured JSON, not HTML, so wp_kses_post is inappropriate.
+     *
+     * @param string $geojson GeoJSON string to sanitize
+     * @return string Sanitized JSON string, or empty string if invalid
+     */
+    private function sanitize_geojson($geojson) {
+        if (empty($geojson)) {
+            return '';
+        }
+
+        // Validate that it's actually valid JSON
+        $decoded = json_decode($geojson, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            return '';
+        }
+
+        // Re-encode to ensure clean, valid JSON
+        return wp_json_encode($decoded);
     }
 
     /**

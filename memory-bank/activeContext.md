@@ -20,6 +20,17 @@
 - Created `data/zones-metadata.json` (13 zones with codes, types, descriptions)
 - Created `.agents/workflows/new-module.md` and `test-and-verify.md`
 
+**Code Review Improvements (Feb 2026):**
+- Autoloader: Added subdirectory mapping for nested classes (`DB_Manager`, `Security`, `Zone_Detector`, `API_Rotator`, `Pricing_Engine`)
+- Memory Security: Fixed AES encryption to use cryptographically random IVs stored with ciphertext
+- DB Manager: Added `sanitize_geojson()` method for proper JSON validation (replacing `wp_kses_post`)
+- DB Manager: Added TTL logic to `get_geocache()` with 30-day expiry and `delete_geocache()` method
+- DB Manager: Replaced `str_shuffle()` with `random_bytes()` for cryptographically secure booking IDs
+- DB Manager: Added PHPCS ignore comments for static queries in `get_all_regions()` and `get_all_pricings()`
+- Activator: Added version comparison check and `run_migrations()` method for database upgrade path
+- Main: Added conditional loading for frontend assets via `should_load_frontend_assets()` method
+- Main: Improved `enqueue_frontend_scripts()` to only load when shortcodes are present or via filter
+
 **Next Steps — Code Implementation:**
 1. Start Module 1: Core Architecture (`MODULE-01`)
    - Verify/complete `class-iat-main.php`, `class-iat-activator.php`, `class-iat-deactivator.php`

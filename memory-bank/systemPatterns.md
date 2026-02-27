@@ -8,10 +8,18 @@ The plugin follows a modular, object-oriented architecture built around a global
 
 - **Main Class (`class-iat-main.php`)**
   - Initializes plugin, loads dependencies, registers assets, sets up hooks.
+  - **Conditional Loading**: Frontend assets only load on pages containing booking shortcodes via `should_load_frontend_assets()` method.
+
+- **Autoloader (`class-iat-autoloader.php`)**
+  - PSR-4 compatible autoloader with subdirectory mapping.
+  - **Directory Map**: Handles nested classes (`DB_Manager`, `Security`, `Zone_Detector`, `API_Rotator`, `Pricing_Engine`) in their respective subdirectories.
 
 - **Database Manager (`class-iat-db-manager.php`)**
   - Creates custom tables, handles migrations, provides generic CRUD wrappers.
   - Uses `$wpdb` with prepared statements.
+  - **Geocache with TTL**: 30-day expiry on geocoding results to ensure fresh data.
+  - **Cryptographic Security**: Booking IDs generated using `random_bytes()` instead of `str_shuffle()`.
+  - **JSON Validation**: Proper GeoJSON validation via `sanitize_geojson()` method.
 
 - **Geocoding Layer**
   - `API_Rotator` selects between providers (Yandex, Google, Nominatim) based on usage.

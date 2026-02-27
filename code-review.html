@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Code Review — Istanbul Airport Transfer Plugin</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0c0f14;
+    --surface: #141820;
+    --border: #1f2633;
+    --accent: #4f9cf9;
+    --green: #3ecf8e;
+    --yellow: #f5a623;
+    --red: #ff5c5c;
+    --purple: #a78bfa;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --card: #181e2b;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    padding: 2rem;
+  }
+
+  .header {
+    max-width: 900px;
+    margin: 0 auto 3rem;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2rem;
+  }
+
+  .header h1 {
+    font-family: 'Syne', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(120deg, #fff 0%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 0.4rem;
+  }
+
+  .header p {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .score-bar {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .score-pill {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 99px;
+    padding: 0.4rem 1rem;
+    font-size: 0.82rem;
+    font-weight: 500;
+  }
+
+  .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .dot-green { background: var(--green); }
+  .dot-yellow { background: var(--yellow); }
+  .dot-red { background: var(--red); }
+  .dot-blue { background: var(--accent); }
+
+  .main { max-width: 900px; margin: 0 auto; }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin: 2.5rem 0 1rem;
+  }
+
+  .review-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .review-card:hover { border-color: #2e3a4e; }
+
+  .card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .severity {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    padding: 0.25rem 0.65rem;
+    border-radius: 6px;
+    white-space: nowrap;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .sev-critical { background: rgba(255,92,92,0.15); color: var(--red); border: 1px solid rgba(255,92,92,0.25); }
+  .sev-warning  { background: rgba(245,166,35,0.15); color: var(--yellow); border: 1px solid rgba(245,166,35,0.25); }
+  .sev-info     { background: rgba(79,156,249,0.15); color: var(--accent); border: 1px solid rgba(79,156,249,0.25); }
+  .sev-good     { background: rgba(62,207,142,0.15); color: var(--green); border: 1px solid rgba(62,207,142,0.25); }
+
+  .card-title { font-weight: 600; font-size: 0.95rem; flex: 1; }
+  .file-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.2rem 0.5rem;
+  }
+
+  .chevron { color: var(--muted); font-size: 1rem; transition: transform 0.2s; }
+  .card-header.open .chevron { transform: rotate(90deg); }
+
+  .card-body {
+    display: none;
+    padding: 0 1.25rem 1.25rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .card-body.open { display: block; }
+
+  .card-body p {
+    color: #94a3b8;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin: 0.75rem 0 0.5rem;
+  }
+
+  pre {
+    background: #0a0d12;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    overflow-x: auto;
+    line-height: 1.6;
+    margin-top: 0.75rem;
+  }
+
+  .bad { color: #ff8a8a; }
+  .good { color: #6ee7b7; }
+  .neutral { color: #94a3b8; }
+  .comment { color: #4d6080; }
+
+  .fix-label {
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--green);
+    margin-top: 1rem;
+    display: block;
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .summary-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    text-align: center;
+  }
+
+  .summary-box .num {
+    font-family: 'Syne', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    display: block;
+  }
+
+  .summary-box .label { font-size: 0.78rem; color: var(--muted); margin-top: 0.2rem; }
+  .num-red { color: var(--red); }
+  .num-yellow { color: var(--yellow); }
+  .num-blue { color: var(--accent); }
+  .num-green { color: var(--green); }
+
+  .progress-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .progress-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .progress-label span:last-child { color: var(--muted); }
+
+  .progress-track {
+    background: var(--surface);
+    border-radius: 99px;
+    height: 6px;
+    margin-bottom: 0.9rem;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    border-radius: 99px;
+    transition: width 1s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  @media (max-width: 600px) {
+    .summary-grid { grid-template-columns: repeat(2, 1fr); }
+    .header h1 { font-size: 1.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Code Review</h1>
+  <p>Istanbul Airport Transfer — WordPress Plugin &nbsp;·&nbsp; <span style="font-family:'DM Mono',monospace;font-size:0.85rem;">v1.0.0</span></p>
+  <div class="score-bar">
+    <div class="score-pill"><div class="dot dot-red"></div> 2 Critical</div>
+    <div class="score-pill"><div class="dot dot-yellow"></div> 4 Warnings</div>
+    <div class="score-pill"><div class="dot dot-blue"></div> 3 Suggestions</div>
+    <div class="score-pill"><div class="dot dot-green"></div> 4 Strengths</div>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- Summary -->
+  <div class="summary-grid">
+    <div class="summary-box"><span class="num num-red">2</span><div class="label">Critical Issues</div></div>
+    <div class="summary-box"><span class="num num-yellow">4</span><div class="label">Warnings</div></div>
+    <div class="summary-box"><span class="num num-blue">3</span><div class="label">Suggestions</div></div>
+    <div class="summary-box"><span class="num num-green">68%</span><div class="label">Completeness</div></div>
+  </div>
+
+  <!-- Readiness bars -->
+  <div class="progress-section">
+    <div class="progress-label"><span>Security Practices</span><span>75%</span></div>
+    <div class="progress-track"><div class="progress-fill" style="width:75%; background: var(--green);"></div></div>
+
+    <div class="progress-label"><span>Code Completeness</span><span>40%</span></div>
+    <div class="progress-track"><div class="progress-fill" style="width:40%; background: var(--yellow);"></div></div>
+
+    <div class="progress-label"><span>Architecture Quality</span><span>80%</span></div>
+    <div class="progress-track"><div class="progress-fill" style="width:80%; background: var(--accent);"></div></div>
+
+    <div class="progress-label"><span>Error Handling</span><span>30%</span></div>
+    <div class="progress-track"><div class="progress-fill" style="width:30%; background: var(--red);"></div></div>
+  </div>
+
+  <!-- Critical -->
+  <div class="section-title">🔴 Critical</div>
+
+  <div class="review-card">
+    <div class="card-header" onclick="toggle(this)">
+      <span class="severity sev-critical">Critical</span>
+      <span class="card-title">AJAX handlers have no nonce verification or capability checks</span>
+      <span class="file-tag">class-iat-main.php</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="card-body">
+      <p>All AJAX handlers (<code>handle_get_quote</code>, <code>handle_make_booking</code>, <code>handle_save_zone</code>, etc.) currently stub out with <code>wp_die()</code>. When you implement them, they <strong>must</strong> verify nonces and check user capabilities first — otherwise any visitor or logged-out user can trigger admin-only actions.</p>
+      <span class="fix-label">✦ Recommended Pattern</span>
+      <pre><span class="good">public function handle_save_zone() {
+    // 1. Verify nonce
+    check_ajax_referer('iat_nonce', 'nonce');
+
+    // 2. Check capability for admin-only actions
+    if (!current_user_can('manage_options')) {
+        wp_send_json_error(['message' => 'Unauthorized'], 403);
+    }
+
+    // 3. Sanitize input, then do work...
+    $zone_data = sanitize_text_field($_POST['zone_data'] ?? '');
+    // ...
+    wp_send_json_success(['message' => 'Zone saved.']);
+}</span></pre>
+    </div>
+  </div>
+
+  <div class="review-card">
+    <div class="card-header" onclick="toggle(this)">
+      <span class="severity sev-critical">Critical</span>
+      <span class="card-title">Weak IV generation makes AES encryption predictable</span>
+      <span class="file-tag">class-iat-memory-security.php</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="card-body">
+      <p>The <code>generate_iv()</code> method likely derives the IV deterministically from the key. AES-CBC requires a random IV per encryption operation; reusing a fixed IV leaks information about repeated plaintexts and breaks semantic security.</p>
+      <span class="fix-label">✦ Recommended Fix</span>
+      <pre><span class="bad">// ❌ Deterministic IV — don't do this
+$iv = hash('md5', $key); // always same IV for same key</span>
+
+<span class="good">// ✅ Random IV, stored alongside ciphertext
+$iv = openssl_random_pseudo_bytes(16);
+$encrypted = openssl_encrypt($data, 'AES-256-CBC', $enc_key, 0, $iv);
+// Store as: base64(iv + encrypted)
+return base64_encode($iv . $encrypted);</span>
+
+<span class="good">// When decrypting:
+$raw = base64_decode($stored);
+$iv  = substr($raw, 0, 16);
+$enc = substr($raw, 16);
+return openssl_decrypt($enc, 'AES-256-CBC', $enc_key, 0, $iv);</span></pre>
+    </div>
+  </div>
+
+  <!-- Warnings -->
+  <div class="section-title">🟡 Warnings</div>
+
+  <div class="review-card">
+    <div class="card-header" onclick="toggle(this)">
+      <span class="severity sev-warning">Warning</span>
+      <span class="card-title">Autoloader path mapping is fragile for nested classes</span>
+      <span class="file-tag">class-iat-autoloader.php</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="card-body">
+      <p>The autoloader converts <code>IAT_DB_Manager</code> → <code>includes/class-iat-db-manager.php</code>, but <code>IAT_DB_Manager</code> lives in <code>includes/database/</code>. It happens to work because the file is explicitly required elsewhere, but any future class in a subdirectory will silently fail to autoload.</p>
+      <span class="fix-label">✦ Fix</span>
+      <pre><span class="neutral">// Add subdirectory mapping
+private static $dir_map = [
+    'DB_Manager'    => 'database/',
+    'Security'      => 'security/',
+    'Zone_Detector' => 'zones/',
+    'API_Rotator'   => 'geocoding/',
+    'Pricing_Engine'=> '',
+];
+
+public static function autoload($class_name) {
+    if (strpos($class_name, 'IAT_') !== 0) return;
+    $name = substr($class_name, 4); // strip IAT_
+    $subdir = self::$dir_map[$name] ?? '';
+    $file = IAT_PLUGIN_DIR . 'includes/' . $subdir
+          . 'class-' . strtolower(str_replace('_', '-', $name)) . '.php';
+    if (file_exists($file)) require_once $file;
+}</span></pre>
+    </div>
+  </div>
+
+  <div class="review-card">
+    <div class="card-header" onclick="toggle(this)">
+      <span class="severity sev-warning">Warning</span>
+      <span class="card-title"><code>wp_kses_post()</code> used on GeoJSON data — wrong sanitizer</span>
+      <span class="file-tag">class-iat-db-manager.php</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="card-body">
+      <p>GeoJSON is structured JSON, not HTML. Running it through <code>wp_kses_post()</code> can silently strip valid JSON content (e.g. angle brackets in strings). Use <code>wp_json_encode(json_decode($value))</code> to round-trip validate it instead.</p>
+      <span class="fix-label">✦ Fix</span>
+      <pre><span class="bad">// ❌ Wrong tool for the job
+'geojson' => wp_kses_post($data['geojson']),</span>
+
+<span class="good">// ✅ Validate it is actually JSON
+$decoded = json_decode($data['geojson'], true);
+if (json_last_error() !== JSON_ERROR_NONE) {
+    return false; // reject invalid GeoJSON
+}
+'geojson' => wp_json_encode($decoded),</span></pre>
+    </div>
+  </div>
+
+  <div class="review-card">
+    <div class="card-header" onclick="toggle(this)">
+      <span class="severity sev-warning">Warning</span>
+      <span class="card-title"><code>get_all_regions()</code> uses unprepared query</span>
+      <span class="file-tag">class-iat-db-manager.php</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="card-body">
+      <p>The query string is safe here since it has no user input, but WordPress Coding Standards flags any <code>$wpdb->get_results()</code> call with a bare SQL string. More importantly, if someone extends this method with dynamic conditions later, the pattern is already unsafe. Wrap it with <code>$wpdb->prepare()</code> or at minimum add a <code>// phpcs:ignore</code> comment explaining why it's safe.</p>
+      <pre><span class="bad">// Unguarded
+$wpdb->get_results("SELECT * FROM {$this->get_regions_table()} ORDER BY region_name ASC");</span>
+
+<span class="good">// Safer pattern even for static queries
+$table = esc_sql($this->get_regions_table());
+$wpdb->get_results("SELECT * FROM `{$table}` ORDER BY region_name ASC"); // phpcs:ignore</span></pre>
+    </div>
+  </div>
+
+  <div class="review-card">
+    <div class="card-header" onclick="toggle(this)">
+      <span class="severity sev-warning">Warning</span>
+      <span class="card-title">Booking ID generated with <code>str_shuffle()</code> — not cryptographically random</span>
+      <span class="file-tag">class-iat-db-manager.php</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="card-body">
+      <p><code>str_shuffle()</code> uses PHP's <code>mt_rand()</code> which is not cryptographically secure. Booking IDs and cancellation tokens are security-sensitive — a predictable ID lets someone guess/cancel another person's booking.</p>
+      <span class="fix-label">✦ Fix</span>
+      <pre><span class="bad">// ❌ Predictable
+substr(str_shuffle('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'), 0, 8)</span>
+
+<span class="good">// ✅ Cryptographically random
+'IAT' . date('Ymd') . strtoupper(bin2hex(random_bytes(4)))</span></pre>
+    </div>
+  </div>
+
+  <!-- Suggestions -->
+  <div class="section-title">🔵 Suggestions</div>
+
+  <div class="review-card">
+    <div class="card-header" onclick="toggle(this)">
+      <span class="severity sev-info">Suggestion</span>
+      <span class="card-title">Add a database version migration system</span>
+      <span class="file-tag">class-iat-activator.php</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="card-body">
+      <p>You store <code>iat_db_version</code> but never check it on subsequent activations. When you release v1.1.0 with schema changes, <code>dbDelta()</code> handles additions but not column renames or drops. Add an upgrade path now before real data exists.</p>
+      <pre><span class="good">public static function activate() {
+    $installed_ver = get_option('iat_db_version', '0.0.0');
+    if (version_compare($installed_ver, IAT_VERSION, '<')) {
+        self::create_database_tables(); // dbDelta is safe to re-run
+        self::run_migrations($installed_ver);
+        update_option('iat_db_version', IAT_VERSION);
+    }
+}</span></pre>
+    </div>
+  </div>
+
+  <div class="review-card">
+    <div class="card-header" onclick="toggle(this)">
+      <span class="severity sev-info">Suggestion</span>
+      <span class="card-title">Frontend scripts load on every page — add conditional loading</span>
+      <span class="file-tag">class-iat-main.php</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="card-body">
+      <p>CSS and JS are enqueued unconditionally via <code>wp_enqueue_scripts</code>. These files will load on every single front-end page, adding unnecessary weight. Only load them on pages that contain your shortcode or a designated page template.</p>
+      <pre><span class="good">public function enqueue_frontend_scripts() {
+    global $post;
+    // Only load if the shortcode is present on this page
+    if (!is_a($post, 'WP_Post') 
+        || !has_shortcode($post->post_content, 'iat_booking_form')) {
+        return;
+    }
+    wp_enqueue_style('iat-frontend-style', ...);
+    wp_enqueue_script('iat-frontend-script', ...);
+}</span></pre>
+    </div>
+  </div>
+
+  <div class="review-card">
+    <div class="card-header" onclick="toggle(this)">
+      <span class="severity sev-info">Suggestion</span>
+      <span class="card-title">Geocache should have TTL / expiry logic</span>
+      <span class="file-tag">class-iat-db-manager.php</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="card-body">
+      <p>The geocache table stores entries indefinitely. Geocoding results can change over time (new roads, renamed districts). Add a TTL check when reading the cache — e.g. reject entries older than 30 days.</p>
+      <pre><span class="good">public function get_geocache($address) {
+    // ...existing query...
+    if (!$cached) return false;
+
+    // Reject stale entries (30-day TTL)
+    $age = time() - strtotime($cached->updated_at);
+    if ($age > 30 * DAY_IN_SECONDS) {
+        $this->delete_geocache($address); // optional cleanup
+        return false;
+    }
+    return [...];
+}</span></pre>
+    </div>
+  </div>
+
+  <!-- Strengths -->
+  <div class="section-title">✅ Strengths</div>
+
+  <div class="review-card">
+    <div class="card-header" onclick="toggle(this)">
+      <span class="severity sev-good">Good</span>
+      <span class="card-title">Singleton pattern properly implemented with clone/wakeup guards</span>
+      <span class="file-tag">class-iat-main.php · class-iat-db-manager.php</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="card-body">
+      <p>Both <code>IAT_Main</code> and <code>IAT_DB_Manager</code> protect against accidental duplication via private <code>__clone()</code> and a <code>__wakeup()</code> that throws an exception. This is the correct WordPress-style singleton pattern.</p>
+    </div>
+  </div>
+
+  <div class="review-card">
+    <div class="card-header" onclick="toggle(this)">
+      <span class="severity sev-good">Good</span>
+      <span class="card-title">Input sanitization is thorough and context-aware</span>
+      <span class="file-tag">class-iat-db-manager.php</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="card-body">
+      <p>You're using the right sanitizer per data type throughout <code>create_booking()</code> — <code>sanitize_email()</code> for emails, <code>sanitize_text_field()</code> for strings, <code>floatval()</code> for prices, and <code>intval()</code> for integers. This is exactly the right approach and shows good security awareness.</p>
+    </div>
+  </div>
+
+  <div class="review-card">
+    <div class="card-header" onclick="toggle(this)">
+      <span class="severity sev-good">Good</span>
+      <span class="card-title">Database schema design is solid and well-indexed</span>
+      <span class="file-tag">class-iat-activator.php</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="card-body">
+      <p>The table schemas are well thought-out: appropriate data types (<code>decimal(10,7)</code> for coordinates, <code>json</code> for passenger names), useful indexes on frequently-queried columns, and proper use of <code>dbDelta()</code> for safe upgrades. The bidirectional pricing model is also a clean solution.</p>
+    </div>
+  </div>
+
+  <div class="review-card">
+    <div class="card-header" onclick="toggle(this)">
+      <span class="severity sev-good">Good</span>
+      <span class="card-title">Plugin structure follows WordPress best practices</span>
+      <span class="file-tag">istanbul-airport-transfer.php</span>
+      <span class="chevron">›</span>
+    </div>
+    <div class="card-body">
+      <p>The main plugin file is clean: proper plugin header, constants defined early, direct-access guard with <code>ABSPATH</code> check, activation/deactivation hooks registered correctly, and initialization deferred to <code>plugins_loaded</code>. This is textbook WordPress plugin structure.</p>
+    </div>
+  </div>
+
+  <div style="height: 3rem;"></div>
+</div>
+
+<script>
+function toggle(header) {
+  header.classList.toggle('open');
+  const body = header.nextElementSibling;
+  body.classList.toggle('open');
+}
+</script>
+</body>
+</html>

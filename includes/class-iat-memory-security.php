@@ -47,9 +47,12 @@ class IAT_Memory_Security {
     /**
      * Encrypt sensitive data
      * 
+     * Uses AES-256-CBC encryption with cryptographically random IV.
+     * The IV is prepended to the encrypted data and stored together.
+     * 
      * @param mixed $data Data to encrypt
      * @param string $key Optional key identifier for key derivation
-     * @return string Encrypted data
+     * @return string Encrypted data (base64 encoded IV + ciphertext)
      */
     public static function encrypt_sensitive_data($data, $key = '') {
         if (empty($data)) {
@@ -63,19 +66,34 @@ class IAT_Memory_Security {
         
         // Generate encryption key
         $encryption_key = self::generate_encryption_key($key);
-        $iv = self::generate_iv($key);
+        
+        // Generate cryptographically random IV (16 bytes for AES-256-CBC)
+        $iv = openssl_random_pseudo_bytes(16, $strong);
+        
+        // Fall back to deterministic IV if strong random not available (rare case)
+        if (!$strong) {
+            $iv = self::generate_fallback_iv($key);
+            self::log_security_event('Weak random IV generated - using fallback', $key);
+        }
         
         // Encrypt using AES-256-CBC
         $encrypted = openssl_encrypt($data, 'AES-256-CBC', $encryption_key, 0, $iv);
         
-        // Return base64 encoded encrypted data
-        return base64_encode($encrypted);
+        if ($encrypted === false) {
+            return '';
+        }
+        
+        // Return base64 encoded IV + encrypted data
+        // The IV needs to be stored alongside the ciphertext for decryption
+        return base64_encode($iv . $encrypted);
     }
     
     /**
      * Decrypt sensitive data
      * 
-     * @param string $data Encrypted data
+     * Expects base64 encoded data containing IV (first 16 bytes) + ciphertext.
+     * 
+     * @param string $data Encrypted data (base64 encoded IV + ciphertext)
      * @param string $key Optional key identifier for key derivation
      * @return mixed Decrypted data
      */
@@ -85,17 +103,20 @@ class IAT_Memory_Security {
         }
         
         // Decode base64
-        $data = base64_decode($data);
-        if ($data === false) {
+        $raw = base64_decode($data);
+        if ($raw === false || strlen($raw) < 16) {
             return '';
         }
         
+        // Extract IV (first 16 bytes) and ciphertext (remaining bytes)
+        $iv = substr($raw, 0, 16);
+        $encrypted = substr($raw, 16);
+        
         // Generate encryption key
         $encryption_key = self::generate_encryption_key($key);
-        $iv = self::generate_iv($key);
         
         // Decrypt using AES-256-CBC
-        $decrypted = openssl_decrypt($data, 'AES-256-CBC', $encryption_key, 0, $iv);
+        $decrypted = openssl_decrypt($encrypted, 'AES-256-CBC', $encryption_key, 0, $iv);
         
         if ($decrypted === false) {
             return '';
@@ -257,12 +278,19 @@ class IAT_Memory_Security {
     }
     
     /**
-     * Generate initialization vector
+     * Generate fallback initialization vector
+     * 
+     * This method generates a deterministic IV as a fallback when
+     * cryptographically strong random IV generation is not available.
+     * This should rarely happen on modern systems.
+     * 
+     * WARNING: Deterministic IVs are less secure than random IVs.
+     * This is a fallback for edge cases only.
      * 
      * @param string $key Optional key identifier
      * @return string Initialization vector
      */
-    private static function generate_iv($key = '') {
+    private static function generate_fallback_iv($key = '') {
         // Use NONCE_KEY as base for IV
         $base_iv = defined('NONCE_KEY') ? NONCE_KEY : 'default_nonce_key';
         

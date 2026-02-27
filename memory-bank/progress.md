@@ -14,6 +14,12 @@
 - **Directory scaffold** — all required dirs created with `.gitkeep`
 - **Workflow files** — `.agents/workflows/new-module.md`, `test-and-verify.md`
 - Bootstrap PHP classes exist: `IAT_Main`, `IAT_Activator`, `IAT_Deactivator`, `IAT_Autoloader`
+- **Code Review Improvements Applied** (Feb 2026):
+  - Autoloader: Subdirectory mapping for nested classes
+  - Memory Security: Cryptographically random IVs for AES encryption
+  - DB Manager: Proper JSON validation, TTL caching, secure booking IDs
+  - Activator: Version-based migration system with `run_migrations()` method
+  - Main: Conditional frontend asset loading for better performance
 
 ## What's Left to Build
 - Complete PHP class implementations for all 22+ classes in `includes/`
@@ -31,6 +37,7 @@
 ## Current Status
 - Planning and infrastructure: ✅ Complete
 - Vibe coding readiness: ✅ Complete
+- Security improvements: ✅ Complete (based on code review)
 - Code implementation: ⏳ Not started
 - Next module to implement: **Core Architecture** (MODULE-01)
 
@@ -39,6 +46,16 @@
 - Rate limiting strategy untested until implementation
 - Real API keys must be managed securely (never committed to git)
 - `koordinatlar.md` (35KB) contains raw GeoJSON — not yet split into individual zone files
+- **Note**: AJAX handlers in `class-iat-main.php` are stubbed but NOT implemented yet (nonce verification and capability checks required when implementing)
+
+## Security Improvements (Feb 2026)
+Based on code review analysis:
+- **Critical**: All future AJAX implementations must include nonce verification and capability checks
+- **AES Encryption**: Now uses cryptographically secure random IVs stored with ciphertext
+- **Booking IDs**: Generated using `random_bytes()` for cryptographic security
+- **GeoJSON Validation**: Proper JSON validation instead of HTML sanitization
+- **Geocache**: 30-day TTL to ensure fresh geocoding data
+- **Asset Loading**: Frontend assets only load on relevant pages (performance + security)
 
 ## Evolution of Decisions
 - Began with simple plugin concept; expanded to detailed multi-zone architecture
