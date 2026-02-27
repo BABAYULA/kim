@@ -170,7 +170,33 @@ The plugin follows:
 ## 📄 License
 
 This plugin is licensed under the MIT License.
+## 📚 Documentation & Planning Additions
 
+During the initial planning phase we created a **Memory Bank** under `memory-bank/` in order to capture
+architecture decisions, active context and progress. This mirrors the instructions from `.clinerules` and
+ensures the project retains state across sessions. The following core files were added:
+
+1. `projectbrief.md` – high‑level goals, requirements and constraints.
+2. `productContext.md` – why the product exists and how it behaves.
+3. `activeContext.md` – current focus, recent changes and next steps.
+4. `systemPatterns.md` – component architecture and design patterns.
+5. `techContext.md` – technologies, tooling and deployment environment.
+6. `progress.md` – what works, what remains and known issues.
+
+Each time the project progresses, update these documents with new findings or decisions so that no
+planning detail is lost. The memory bank is the single source of truth for architectural and
+infrastructure planning.
+
+Additionally, the repository has been reset to the latest GitHub commit and the `prompts/` folder removed
+as part of cleanup. The README and implementation plan themselves were expanded to reflect this
+planning work and to provide explicit instructions for the next infrastructure tasks:
+
+- scaffold core plugin directories and class templates
+- configure development environment (WP + PHP 8 + MySQL + Node)
+- set up CI/CD pipeline (composer, npm, phpunit)
+- design deployment strategy and database migration process
+
+Refer to the head of `implementation_plan.md` for the updated step‑by‑step plan.
 ## 🆘 Support
 
 For support and questions:

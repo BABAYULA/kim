@@ -3,6 +3,21 @@
 ## [Overview]
 Create a comprehensive WordPress plugin for Istanbul Airport transfers with 13 service zones, zone-to-zone pricing, multi-step booking, and admin management. The plugin will handle bookings between Istanbul Airport (IST) and Sabiha Gökçen Airport (SAW) with 11 service zones across Istanbul, featuring geocoding API rotation, point-in-polygon zone detection, and a complete booking state machine.
 
+> **Note:** during the current planning phase the repository was aligned with the latest GitHub
+> commit, unwanted `prompts/` files were removed, and a `memory-bank/` directory was added to store
+> essential planning documents. Before any code is written the following infrastructure tasks should
+> be completed (see the Memory Bank for details):
+>
+> 1. Scaffold the plugin skeleton (`istanbul-airport-transfer.php`, `includes/`, `assets/`, etc.).
+> 2. Establish local development environment with WordPress, PHP 8+, MySQL and Node.js.
+> 3. Configure Composer/NPM and asset build pipeline (Webpack).
+> 4. Set up CI/CD (lint, build, test, package) and version-controlled deployment strategy.
+> 5. Document all architectural decisions in `memory-bank/` files and update them as work progresses.
+> 6. Define database migration/versioning approach and security key handling.
+>
+> Only after these steps are in place should module implementation commence. The Memory Bank
+documents provide the step‑by‑step planning necessary to avoid overlooking requirements.
+
 ## [Types]
 ### Database Schema Types
 ```php
