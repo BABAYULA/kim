@@ -2,54 +2,63 @@
 
 ## Languages & Runtime
 - **PHP 8.0+** with WordPress hooks and APIs
-- **MySQL 5.7+** (or MariaDB equivalent) for custom tables
-- **JavaScript ES6+** for frontend and admin interactivity
-- **CSS/SCSS** for styling via Webpack
+- **MySQL 5.7+** (or MariaDB equivalent) for 7 custom tables
+- **JavaScript ES6+** for frontend and admin interactivity (Vanilla JS — NO React/Vue/jQuery)
+- **CSS3** (Grid/Flexbox, BEM naming) for styling
 
 ## Frameworks & Libraries
 - **WordPress 6.x** plugin environment
-- **Composer** for PHP dependency management
-- **NPM/Yarn** for JS build tools
-- **Webpack** (configured via `webpack.config.js`) for asset bundling
-- **PHPUnit** for backend unit tests
-- Optional: **Jest/Cypress** for frontend testing
+- **Composer** for PHP dependency management (PSR-4 autoloading, namespace `IAT\`)
+- **NPM** for JS build tools
+- **Webpack 5** (configured via `webpack.config.js`) for asset bundling
+- **Leaflet.js 1.9+** for map display and zone visualization
+- **PHPUnit 9.5+** for backend unit/integration tests
 
 ## Development Tools
 - Local WP development environment (e.g., LocalWP, Docker, MAMP)
 - Git for version control; typical branching strategy (feature/bugfix/release)
-- ESLint/Prettier for JS linting
-- PHP_CodeSniffer (PHP-CS-Fixer) with WordPress rules
-- VSCode or preferred IDE with PHP and JS extensions
+- PHP_CodeSniffer with WordPress coding standards
+- PHPStan for static analysis
+- AI coding assistants following unified `CODING_RULES.md`
 
-## Dependencies
-- PHP packages specified in `composer.json` (e.g., `symfony/polyfill`, `phpunit/phpunit`)
-- JS packages in `package.json` (e.g., `webpack`, `babel`, `jquery` if used)
+## Configuration Files
+- `composer.json` — PHP deps, PSR-4 autoloading (`IAT\` → `includes/`)
+- `package.json` — NPM/Webpack build scripts, Leaflet dependency
+- `phpunit.xml` — Test suite configuration
+- `.gitignore` — Comprehensive exclusions (vendor, node_modules, env, build, IDE)
+- `CODING_RULES.md` — Unified rules for all AI tools
+- `.cursorrules`, `.gemini/styleguide.md`, `.windsurfrules`, `.clinerules` — AI tool pointers
 
 ## Build & Test Setup
 - `composer install` to fetch PHP libraries
 - `npm install` for JS dependencies
-- `npm run build` for production assets
+- `npm run build` for production assets (Webpack)
 - `npm run dev` for watch mode during development
 - `vendor/bin/phpunit` for PHP tests
+- `vendor/bin/phpcs` for code standards checking
+- `vendor/bin/phpstan analyse` for static analysis
 
 ## Technical Constraints
 - Must run inside a WordPress plugin context; cannot use Laravel, Symfony, etc.
-- No external payment gateway initially; architecture must allow plugging in later.
-- External APIs have rate limits; design for rotation and caching.
-- Hosting environment likely shared WP hosting; resource usage should be modest.
+- No external payment gateway in v1; architecture must allow plugging in later
+- External APIs have rate limits; design for rotation and caching
+- Hosting environment likely shared WP hosting; resource usage should be modest
+- All code in English; bilingual (Turkish/English) readiness for v2
 
 ## Deployment Environment
 - Production WordPress instance with FTP/SSH access for plugin upload
 - WP-Cron or server cron job for scheduled tasks
 - SMTP configuration (WP Mail SMTP) for email delivery
+- ZIP packaging via `npm run zip`
 
 ## Security & Compliance
-- ReCAPTCHA v3 integration requires separate keys per site
-- Data privacy: capture minimal PII; respect GDPR (optional translations)
-- Store API keys securely and not commit to git
+- reCAPTCHA v3 integration requires separate keys per site
+- Data privacy: capture minimal PII; respect GDPR
+- Store API keys securely and NEVER commit to git
+- All queries via `$wpdb->prepare()` — no raw SQL with user input
 
-## Documentation & Automation
-- `README.md` for high-level project overview and setup
-- Implementation plan files for module breakdown
-- Cline workflows/rules in `prompts/` are optional and can be removed
-- CI configuration (GitHub Actions/Bitbucket pipeline) to automate tests/builds
+## Data Files
+- `data/pricing-matrix.json` — Machine-readable pricing (79 routes + 11 intrazonal)
+- `data/zones-metadata.json` — Zone codes, types, and descriptions (13 zones)
+- `fiyat_listesi.md` — Human-readable pricing matrix (source of truth)
+- `koordinatlar.md` — GeoJSON zone coordinates (source of truth)

@@ -1,0 +1,521 @@
+{
+    "version": "2026-02",
+    "currency": "EUR",
+    "notes": "All inter-zone prices are bidirectional (A→B = B→A). Source: fiyat_listesi.md",
+    "routes": [
+        {
+            "from": "IST",
+            "to": "Bolge-Yarim",
+            "price": 25,
+            "bidirectional": true
+        },
+        {
+            "from": "IST",
+            "to": "Bolge-BirBucuk",
+            "price": 45,
+            "bidirectional": true
+        },
+        {
+            "from": "IST",
+            "to": "Bolge-Bir",
+            "price": 40,
+            "bidirectional": true
+        },
+        {
+            "from": "IST",
+            "to": "Bolge-Iki",
+            "price": 50,
+            "bidirectional": true
+        },
+        {
+            "from": "IST",
+            "to": "Bolge-IkiBucuk",
+            "price": 60,
+            "bidirectional": true
+        },
+        {
+            "from": "IST",
+            "to": "Bolge-BirBucuk-Sariyer",
+            "price": 45,
+            "bidirectional": true
+        },
+        {
+            "from": "IST",
+            "to": "Bolge-Iki-Sariyer",
+            "price": 50,
+            "bidirectional": true
+        },
+        {
+            "from": "IST",
+            "to": "Anadolu-Yarim",
+            "price": 70,
+            "bidirectional": true
+        },
+        {
+            "from": "IST",
+            "to": "Anadolu-Bir",
+            "price": 50,
+            "bidirectional": true
+        },
+        {
+            "from": "IST",
+            "to": "Anadolu-BirBucuk",
+            "price": 55,
+            "bidirectional": true
+        },
+        {
+            "from": "IST",
+            "to": "Anadolu-Iki",
+            "price": 70,
+            "bidirectional": true
+        },
+        {
+            "from": "SAW",
+            "to": "Bolge-Yarim",
+            "price": 60,
+            "bidirectional": true
+        },
+        {
+            "from": "SAW",
+            "to": "Bolge-BirBucuk",
+            "price": 55,
+            "bidirectional": true
+        },
+        {
+            "from": "SAW",
+            "to": "Bolge-Bir",
+            "price": 50,
+            "bidirectional": true
+        },
+        {
+            "from": "SAW",
+            "to": "Bolge-Iki",
+            "price": 60,
+            "bidirectional": true
+        },
+        {
+            "from": "SAW",
+            "to": "Bolge-IkiBucuk",
+            "price": 70,
+            "bidirectional": true
+        },
+        {
+            "from": "SAW",
+            "to": "Bolge-BirBucuk-Sariyer",
+            "price": 55,
+            "bidirectional": true
+        },
+        {
+            "from": "SAW",
+            "to": "Bolge-Iki-Sariyer",
+            "price": 60,
+            "bidirectional": true
+        },
+        {
+            "from": "SAW",
+            "to": "Anadolu-Yarim",
+            "price": 25,
+            "bidirectional": true
+        },
+        {
+            "from": "SAW",
+            "to": "Anadolu-Bir",
+            "price": 40,
+            "bidirectional": true
+        },
+        {
+            "from": "SAW",
+            "to": "Anadolu-BirBucuk",
+            "price": 45,
+            "bidirectional": true
+        },
+        {
+            "from": "SAW",
+            "to": "Anadolu-Iki",
+            "price": 50,
+            "bidirectional": true
+        },
+        {
+            "from": "IST",
+            "to": "SAW",
+            "price": 70,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Yarim",
+            "to": "Bolge-BirBucuk",
+            "price": 30,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Yarim",
+            "to": "Bolge-Bir",
+            "price": 40,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Yarim",
+            "to": "Bolge-Iki",
+            "price": 40,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Yarim",
+            "to": "Bolge-IkiBucuk",
+            "price": 50,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Yarim",
+            "to": "Bolge-BirBucuk-Sariyer",
+            "price": 40,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Yarim",
+            "to": "Bolge-Iki-Sariyer",
+            "price": 50,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-BirBucuk",
+            "to": "Bolge-Bir",
+            "price": 35,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-BirBucuk",
+            "to": "Bolge-Iki",
+            "price": 30,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-BirBucuk",
+            "to": "Bolge-IkiBucuk",
+            "price": 40,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-BirBucuk",
+            "to": "Bolge-BirBucuk-Sariyer",
+            "price": 35,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-BirBucuk",
+            "to": "Bolge-Iki-Sariyer",
+            "price": 40,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Bir",
+            "to": "Bolge-Iki",
+            "price": 30,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Bir",
+            "to": "Bolge-IkiBucuk",
+            "price": 40,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Bir",
+            "to": "Bolge-BirBucuk-Sariyer",
+            "price": 25,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Bir",
+            "to": "Bolge-Iki-Sariyer",
+            "price": 35,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Iki",
+            "to": "Bolge-IkiBucuk",
+            "price": 35,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Iki",
+            "to": "Bolge-BirBucuk-Sariyer",
+            "price": 35,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Iki",
+            "to": "Bolge-Iki-Sariyer",
+            "price": 40,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-IkiBucuk",
+            "to": "Bolge-BirBucuk-Sariyer",
+            "price": 50,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-IkiBucuk",
+            "to": "Bolge-Iki-Sariyer",
+            "price": 60,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-BirBucuk-Sariyer",
+            "to": "Bolge-Iki-Sariyer",
+            "price": 35,
+            "bidirectional": true
+        },
+        {
+            "from": "Anadolu-Yarim",
+            "to": "Anadolu-Bir",
+            "price": 30,
+            "bidirectional": true
+        },
+        {
+            "from": "Anadolu-Yarim",
+            "to": "Anadolu-BirBucuk",
+            "price": 40,
+            "bidirectional": true
+        },
+        {
+            "from": "Anadolu-Yarim",
+            "to": "Anadolu-Iki",
+            "price": 45,
+            "bidirectional": true
+        },
+        {
+            "from": "Anadolu-Bir",
+            "to": "Anadolu-BirBucuk",
+            "price": 35,
+            "bidirectional": true
+        },
+        {
+            "from": "Anadolu-Bir",
+            "to": "Anadolu-Iki",
+            "price": 40,
+            "bidirectional": true
+        },
+        {
+            "from": "Anadolu-BirBucuk",
+            "to": "Anadolu-Iki",
+            "price": 40,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Yarim",
+            "to": "Anadolu-Yarim",
+            "price": 60,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Yarim",
+            "to": "Anadolu-Bir",
+            "price": 50,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Yarim",
+            "to": "Anadolu-BirBucuk",
+            "price": 50,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Yarim",
+            "to": "Anadolu-Iki",
+            "price": 55,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-BirBucuk",
+            "to": "Anadolu-Yarim",
+            "price": 70,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-BirBucuk",
+            "to": "Anadolu-Bir",
+            "price": 65,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-BirBucuk",
+            "to": "Anadolu-BirBucuk",
+            "price": 65,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-BirBucuk",
+            "to": "Anadolu-Iki",
+            "price": 70,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Bir",
+            "to": "Anadolu-Yarim",
+            "price": 40,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Bir",
+            "to": "Anadolu-Bir",
+            "price": 40,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Bir",
+            "to": "Anadolu-BirBucuk",
+            "price": 45,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Bir",
+            "to": "Anadolu-Iki",
+            "price": 50,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Iki",
+            "to": "Anadolu-Yarim",
+            "price": 60,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Iki",
+            "to": "Anadolu-Bir",
+            "price": 50,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Iki",
+            "to": "Anadolu-BirBucuk",
+            "price": 55,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Iki",
+            "to": "Anadolu-Iki",
+            "price": 60,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-IkiBucuk",
+            "to": "Anadolu-Yarim",
+            "price": 70,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-IkiBucuk",
+            "to": "Anadolu-Bir",
+            "price": 60,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-IkiBucuk",
+            "to": "Anadolu-BirBucuk",
+            "price": 65,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-IkiBucuk",
+            "to": "Anadolu-Iki",
+            "price": 70,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-BirBucuk-Sariyer",
+            "to": "Anadolu-Yarim",
+            "price": 55,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-BirBucuk-Sariyer",
+            "to": "Anadolu-Bir",
+            "price": 50,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-BirBucuk-Sariyer",
+            "to": "Anadolu-BirBucuk",
+            "price": 55,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-BirBucuk-Sariyer",
+            "to": "Anadolu-Iki",
+            "price": 60,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Iki-Sariyer",
+            "to": "Anadolu-Yarim",
+            "price": 70,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Iki-Sariyer",
+            "to": "Anadolu-Bir",
+            "price": 55,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Iki-Sariyer",
+            "to": "Anadolu-BirBucuk",
+            "price": 60,
+            "bidirectional": true
+        },
+        {
+            "from": "Bolge-Iki-Sariyer",
+            "to": "Anadolu-Iki",
+            "price": 70,
+            "bidirectional": true
+        }
+    ],
+    "intrazonal": [
+        {
+            "zone": "Bolge-Yarim",
+            "price": 20
+        },
+        {
+            "zone": "Bolge-BirBucuk",
+            "price": 25
+        },
+        {
+            "zone": "Bolge-Bir",
+            "price": 25
+        },
+        {
+            "zone": "Bolge-Iki",
+            "price": 25
+        },
+        {
+            "zone": "Bolge-IkiBucuk",
+            "price": 40
+        },
+        {
+            "zone": "Bolge-BirBucuk-Sariyer",
+            "price": 25
+        },
+        {
+            "zone": "Bolge-Iki-Sariyer",
+            "price": 35
+        },
+        {
+            "zone": "Anadolu-Yarim",
+            "price": 25
+        },
+        {
+            "zone": "Anadolu-Bir",
+            "price": 25
+        },
+        {
+            "zone": "Anadolu-BirBucuk",
+            "price": 30
+        },
+        {
+            "zone": "Anadolu-Iki",
+            "price": 40
+        }
+    ]
+}

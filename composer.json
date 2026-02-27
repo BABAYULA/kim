@@ -1,6 +1,6 @@
 {
-    "name": "istanbul-airport-transfer/memory-bank",
-    "description": "Memory Bank System for Istanbul Airport Transfer WordPress Plugin",
+    "name": "istanbul-airport-transfer/plugin",
+    "description": "Istanbul Airport Transfer WordPress Plugin",
     "type": "wordpress-plugin",
     "version": "1.0.0",
     "license": "MIT",
@@ -12,7 +12,10 @@
     ],
     "require": {
         "php": ">=8.0",
-        "composer/installers": "^2.0"
+        "composer/installers": "^2.0",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-openssl": "*"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
@@ -22,12 +25,12 @@
     },
     "autoload": {
         "psr-4": {
-            "IAT\\MemoryBank\\": "includes/"
+            "IAT\\": "includes/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "IAT\\MemoryBank\\Tests\\": "tests/"
+            "IAT\\Tests\\": "tests/"
         }
     },
     "scripts": {

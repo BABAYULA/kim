@@ -1,0 +1,29 @@
+{
+    "name": "istanbul-airport-transfer",
+    "version": "1.0.0",
+    "description": "Istanbul Airport Transfer WordPress Plugin - Build assets",
+    "private": true,
+    "scripts": {
+        "build": "webpack --mode=production",
+        "dev": "webpack --mode=development --watch",
+        "lint:js": "eslint assets/js/",
+        "lint:css": "stylelint assets/css/",
+        "zip": "npm run build && composer install --no-dev && powershell Compress-Archive -Path * -DestinationPath plugin.zip -Force"
+    },
+    "devDependencies": {
+        "webpack": "^5.90.0",
+        "webpack-cli": "^5.1.0",
+        "css-loader": "^6.10.0",
+        "mini-css-extract-plugin": "^2.8.0",
+        "css-minimizer-webpack-plugin": "^6.0.0",
+        "terser-webpack-plugin": "^5.3.0"
+    },
+    "dependencies": {
+        "leaflet": "^1.9.0"
+    },
+    "browserslist": [
+        "> 1%",
+        "last 2 versions",
+        "not dead"
+    ]
+}

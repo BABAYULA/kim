@@ -161,11 +161,34 @@ The plugin follows:
 
 ## 🤝 Contributing
 
+### Multi-AI Collaboration Workflow
+
+This project supports collaboration between multiple AI assistants using a structured workflow:
+
+1. **File Locking**: Create a lock file in `.locks/[filename].lock` before modifying any file
+2. **AI Handoff Markers**: Add handoff comments in files when switching between AIs:
+   ```php
+   // AI Handoff: [AI Name] completed [feature/module] at [timestamp]
+   // Next AI should continue with [next task]
+   ```
+3. **Progress Tracking**: Update `memory-bank/activeContext.md` with recent changes
+4. **Documentation Updates**: Keep documentation synchronized across all AIs
+
+### Standard Contribution Process
+
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
 4. Add tests for new functionality
 5. Submit a pull request
+
+### AI-Assisted Development
+
+For AI-assisted development:
+1. Read `CODING_RULES.md` for multi-AI collaboration standards
+2. Check existing lock files in `.locks/` directory
+3. Update `memory-bank/progress.md` after major changes
+4. Follow the handoff protocols described in the coding rules
 
 ## 📄 License
 

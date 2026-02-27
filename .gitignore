@@ -1,4 +1,36 @@
-.qoder/
+# Dependencies
+vendor/
 node_modules/
+
+# Build output
+dist/
+assets/css/*.min.css
+assets/js/*.min.js
+
+# Environment & secrets
+*.env
+.env.*
+
+# IDE & OS
 .DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# Logs
 *.log
+debug.log
+
+# AI tool configs (tool-specific, not needed in repo)
+.qoder/
+
+# Testing
+coverage/
+.phpunit.result.cache
+
+# Archives
+*.zip
+*.tar.gz

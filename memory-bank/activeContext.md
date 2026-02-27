@@ -1,29 +1,42 @@
 # Active Context
 
 **Current Focus:**
-- Formalizing the architecture and infrastructure before writing code.
-- Defining database schema, core modules, and administrative workflows.
-- Setting up repository with proper branching and CI conventions.
-- Ensuring clarity around security requirements (reCAPTCHA, rate limiting, nonces).
+- Vibe coding infrastructure updates completed
+- Project ready for AI-assisted code implementation
+- All AI tools now share unified rules via `CODING_RULES.md`
 
-**Recent Changes:**
-- Implementation plan documented with detailed module/file breakdowns.
-- README fleshed out with features, tech stack, and build instructions.
-- `.clinerules` added to guide memory bank usage.
+**Recent Changes (Feb 2026):**
+- Created `CODING_RULES.md` — unified rules for all AI tools (Gemini, Cursor, Cline, Windsurf)
+- Created thin pointer files: `.cursorrules`, `.gemini/styleguide.md`, `.windsurfrules`
+- Updated `.clinerules` to reference `CODING_RULES.md`
+- Renamed all MODULE files to zero-padded format (`MODULE-01` through `MODULE-12`)
+- Created `package.json` with Webpack build pipeline
+- Fixed `composer.json` — corrected namespace (`IAT\`), package name, added PHP extensions
+- Expanded `.gitignore` to cover vendor, env, build output, IDE files
+- Filled `COMPLETE_CONTEXT_DUMP.md` with actual project data
+- Fixed `QUICK_START.yaml` — removed React/Vue references, added correct stack info
+- Scaffolded missing directories: `assets/`, `admin/views/`, `data/`, `languages/`, `includes/` subdirs
+- Created `data/pricing-matrix.json` (79 routes + 11 intrazonal from `fiyat_listesi.md`)
+- Created `data/zones-metadata.json` (13 zones with codes, types, descriptions)
+- Created `.agents/workflows/new-module.md` and `test-and-verify.md`
 
-**Next Steps:**
-1. Create and populate the memory-bank core documents (completed now).
-2. Verify presence of actual source files (`includes/`, assets, admin etc.) and identify gaps.
-3. Establish development environment: PHP 8+ local WP install, MySQL, Node for assets.
-4. Scaffold CI/CD pipeline: composer install, npm build, phpunit tests, packaging plugin.
-5. Draft deployment strategy: WP plugin zip generation, testing on staging, migration plans.
+**Next Steps — Code Implementation:**
+1. Start Module 1: Core Architecture (`MODULE-01`)
+   - Verify/complete `class-iat-main.php`, `class-iat-activator.php`, `class-iat-deactivator.php`
+2. Start Module 2: Database Manager (`MODULE-01` → database section)
+   - Complete `class-iat-db-manager.php` with all 7 table schemas
+3. Follow development order in `CODING_RULES.md` Section 12
 
 **Active Decisions:**
-- Keep frontend JS vanilla ES6 for simplicity but allow React later if needed.
-- Use WP Cron for auto-confirm; consider actual cron for reliability in production.
-- Cache geocoding results aggressively to minimize API calls.
+- **Unified AI Rules**: Single `CODING_RULES.md` as source of truth for all AI tools
+- **No per-tool configs**: Each AI tool gets only a thin pointer file
+- **English only**: Code, docs, and UI in English (v1)
+- **Cash only**: No online payment in v1
+- **Vanilla JS**: NO React/Vue/jQuery
+- **Seed data**: Machine-readable JSON files in `data/` for DB seeding
 
-**Learnings/Patterns:**
-- Clear separation between admin/backend logic and frontend presentation improves maintainability.
-- Single responsibility classes for each domain (geocoding, zones, bookings) reduces coupling.
-- External APIs require robust fallback and error tracking.
+**Project Status:**
+- Planning: ✅ 100%
+- Vibe Coding Infrastructure: ✅ 100%
+- Development Ready: ✅ Yes
+- Code Implementation: ⏳ Ready to start

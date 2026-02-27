@@ -1,9 +1,36 @@
 PROJECT: Istanbul Airport Transfer WordPress Plugin
-TYPE: Custom Plugin (PHP/JavaScript)
+TYPE: Custom WordPress Plugin (PHP 8.0+ / Vanilla JS ES6+)
 COMPLEXITY: Medium-High
+STATUS: Planning complete, code implementation pending
+
+RULES_FILE: CODING_RULES.md
+
+TECH_STACK:
+  backend: PHP 8.0+ with WordPress 6.x
+  frontend: Vanilla JavaScript ES6+ (NO React/Vue/jQuery)
+  database: MySQL 5.7+ with 7 custom tables
+  maps: Leaflet.js 1.9+
+  build: Webpack 5, Composer, NPM
+  testing: PHPUnit 9.5+
+
 AI_ASSISTANCE_AREAS:
-  - Code generation (PHP classes, React/Vue components)
-  - Database schema design
-  - API integration patterns
-  - Security audit
-  - Testing scenarios
+  - PHP class generation (PSR-12, WordPress standards)
+  - Database CRUD with $wpdb->prepare()
+  - AJAX handler implementation
+  - Geocoding API integration (Yandex, Google, Nominatim)
+  - GeoJSON point-in-polygon zone detection
+  - Multi-step booking form (Vanilla JS)
+  - Admin interface (WP_List_Table, settings API)
+  - Email template creation
+  - PHPUnit test generation
+  - Security audit (nonces, sanitization, escaping)
+
+MODULE_COUNT: 12
+ZONE_COUNT: 13 (7 European + 4 Anatolian + 2 Airports)
+PRICING_ROUTES: 90+
+DB_TABLES: 7
+
+BEFORE_CODING:
+  - Read CODING_RULES.md
+  - Read relevant MODULE-NN-*.md file
+  - Read memory-bank/ context files

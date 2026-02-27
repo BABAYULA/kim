@@ -1,0 +1,103 @@
+{
+    "version": "2026-02",
+    "total_zones": 13,
+    "geojson_source": "koordinatlar.md",
+    "zones": [
+        {
+            "code": "IST",
+            "name": "Istanbul Airport",
+            "type": "airport",
+            "side": "european",
+            "description": "Istanbul Airport (IST) — Main international airport on the European side"
+        },
+        {
+            "code": "SAW",
+            "name": "Sabiha Gokcen Airport",
+            "type": "airport",
+            "side": "anatolian",
+            "description": "Sabiha Gökçen Airport (SAW) — International airport on the Asian side"
+        },
+        {
+            "code": "Bolge-Yarim",
+            "name": "Zone 0.5",
+            "type": "european",
+            "side": "european",
+            "description": "Closest European zone to Istanbul Airport"
+        },
+        {
+            "code": "Bolge-Bir",
+            "name": "Zone 1",
+            "type": "european",
+            "side": "european",
+            "description": "Central European zone — includes Taksim, Beyoğlu, Şişli"
+        },
+        {
+            "code": "Bolge-BirBucuk",
+            "name": "Zone 1.5",
+            "type": "european",
+            "side": "european",
+            "description": "Extended European zone between Zone 1 and Zone 2"
+        },
+        {
+            "code": "Bolge-Iki",
+            "name": "Zone 2",
+            "type": "european",
+            "side": "european",
+            "description": "Outer European zone"
+        },
+        {
+            "code": "Bolge-IkiBucuk",
+            "name": "Zone 2.5",
+            "type": "european",
+            "side": "european",
+            "description": "Furthest European zone from Istanbul Airport"
+        },
+        {
+            "code": "Bolge-BirBucuk-Sariyer",
+            "name": "Zone 1.5 Sariyer",
+            "type": "european",
+            "side": "european",
+            "description": "Sarıyer district — northern European side along Bosphorus"
+        },
+        {
+            "code": "Bolge-Iki-Sariyer",
+            "name": "Zone 2 Sariyer",
+            "type": "european",
+            "side": "european",
+            "description": "Extended Sarıyer district — northernmost European coverage"
+        },
+        {
+            "code": "Anadolu-Yarim",
+            "name": "Anatolian 0.5",
+            "type": "anatolian",
+            "side": "anatolian",
+            "description": "Closest Anatolian zone to Sabiha Gökçen Airport"
+        },
+        {
+            "code": "Anadolu-Bir",
+            "name": "Anatolian 1",
+            "type": "anatolian",
+            "side": "anatolian",
+            "description": "Central Anatolian zone — includes Kadıköy, Üsküdar"
+        },
+        {
+            "code": "Anadolu-BirBucuk",
+            "name": "Anatolian 1.5",
+            "type": "anatolian",
+            "side": "anatolian",
+            "description": "Extended Anatolian zone"
+        },
+        {
+            "code": "Anadolu-Iki",
+            "name": "Anatolian 2",
+            "type": "anatolian",
+            "side": "anatolian",
+            "description": "Furthest Anatolian zone from Sabiha Gökçen Airport"
+        }
+    ],
+    "zone_types": {
+        "airport": "Airport terminals — IST and SAW",
+        "european": "Zones on the European (western) side of Istanbul",
+        "anatolian": "Zones on the Anatolian (eastern/Asian) side of Istanbul"
+    }
+}
